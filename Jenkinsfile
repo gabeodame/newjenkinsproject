@@ -1,5 +1,5 @@
 pipeline {
-    tools {
+    tool {
         maven 'maven'
     }
     agent any
@@ -11,7 +11,10 @@ pipeline {
         }
         stage('Build Jar') {
             steps {
-                sh 'mvn clean package'
+                def mvn_version = 'M3'
+                withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+                sh "mvn clean package"
+}
             }
         }
         stage('Docker Image Build') {
