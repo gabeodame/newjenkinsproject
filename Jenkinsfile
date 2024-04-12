@@ -11,8 +11,6 @@ pipeline {
         }
         stage('Build Jar') {
             steps {
-                def mvnHome = tool name: 'maven', type: 'maven'
-                def mvnCMD = '/opt/maven'
                 sh 'mvn clean package'
             }
         }
