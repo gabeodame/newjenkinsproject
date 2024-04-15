@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Adeoriokin/newjenkinsproject.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hiral5577/newjenkinsproject.git']]])
             }
         }
         stage('Build Jar') {
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
                   script {
-                    sh ('aws eks --region us-east-1 update-kubeconfig --name Kubernetesproject')
+                    sh ('aws eks --region us-east-1 update-kubeconfig --name hiral-kube')
                     sh '/var/lib/jenkins/kubectl apply -f eks-deploy-k8s.yaml'
                 }
                 }
