@@ -16,15 +16,15 @@ pipeline {
         }
         stage('Docker Image Build') {
             steps {
-                sh 'docker build -t projectjenkins .'
+                sh 'docker build -t springboot .'
             }
         }
         stage('Push Docker Image to ECR') {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
-                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 150741279371.dkr.ecr.us-east-1.amazonaws.com'
-                    sh 'docker tag application:latest 150741279371.dkr.ecr.us-east-1.amazonaws.com/projectjenkins:latest'
-                    sh 'docker push 150741279371.dkr.ecr.us-east-1.amazonaws.com/projectjenkins:latest'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 851725649607.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker tag springboot:latest 851725649607.dkr.ecr.us-east-1.amazonaws.com/springboot:latest'
+                    sh 'docker push 851725649607.dkr.ecr.us-east-1.amazonaws.com/springboot:latest'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
                   script {
-                    sh ('aws eks --region us-east-1 update-kubeconfig --name Kubernetesproject')
+                    sh ('aws eks --region us-east-1 update-kubeconfig --name SpringBootCluster')
                     sh '/var/lib/jenkins/kubectl apply -f eks-deploy-k8s.yaml'
                 }
                 }
