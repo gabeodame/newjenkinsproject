@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
                   script {
-                    sh ('aws eks --region us-east-1 update-kubeconfig --name SpringBootCluster')
+                    sh ('aws eks --region us-east-1 update-kubeconfig --name SpringBoot')
                     sh '/var/lib/jenkins/kubectl apply -f eks-deploy-k8s.yaml'
                 }
                 }
