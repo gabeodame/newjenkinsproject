@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hiral5577/newjenkinsproject.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/gabeodame/newjenkinsproject.git']]])
             }
         }
         stage('Build Jar') {
@@ -16,15 +16,15 @@ pipeline {
         }
         stage('Docker Image Build') {
             steps {
-                sh 'docker build -t projectjenkins .'
+                sh 'docker build -t springboot .'
             }
         }
         stage('Push Docker Image to ECR') {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
-                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 730335555312.dkr.ecr.us-east-1.amazonaws.com'
-                    sh 'docker tag projectjenkins:latest 730335555312.dkr.ecr.us-east-1.amazonaws.com/projectjenkins:latest'
-                    sh 'docker push 730335555312.dkr.ecr.us-east-1.amazonaws.com/projectjenkins:latest'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 851725649607.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker tag springboot:latest 851725649607.dkr.ecr.us-east-1.amazonaws.com/springboot:latest'
+                    sh 'docker push 851725649607.dkr.ecr.us-east-1.amazonaws.com/springboot:latest'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
                   script {
-                    sh ('aws eks --region us-east-1 update-kubeconfig --name hiral-kube')
+                    sh ('aws eks --region us-east-1 update-kubeconfig --name SpringBoot')
                     sh '/var/lib/jenkins/kubectl apply -f eks-deploy-k8s.yaml'
                 }
                 }
